@@ -11,6 +11,8 @@
 
 #### Changes
 
+- [BREAKING] Authenticate syscall targets against a kernel Merkle root with domain-separated procedure leaves. `ProgramInfo` and `ExecutionClaim` take the root rather than an exported-procedure list; path depth stays in a private kernel-row column. Kernel rows prove each leaf hash through the existing Eidos compression lookup, and Merkle root-return messages bind depth to the controller's actual path length. Kernel ROM rows authenticate only accessed exports through the hasher controller, and recursive verification no longer receives the kernel list. CLI verification accepts `--kernel-root`.
+
 - [BREAKING] Model public inputs per AIR in the lifted AIR/STARK crates and VM/PVM AIRs. `Statement::new` accepts indexed `(AIR instance index, values)` entries and zero-fills omitted AIRs; `Statement::air_inputs()` and `MultiAir` hooks expose per-AIR vectors. Removed `MultiAir::num_air_inputs()`. High-level processor, VM, prover, and verifier APIs are unchanged ([#3410](https://github.com/0xMiden/miden-vm/issues/3410)).
 - [BREAKING] Preserve the full IV words in Eidos initial chaining values. This changes Eidos hashes and derived commitments in the VM and crypto crates ([#4021](https://github.com/0xMiden/miden-vm/pull/4021)).
 - [BREAKING] Simplified Eidos hashing APIs: renamed `hmerge` to `hdword` and `hash_two_words*` to `hash_double_word*`. Use `hash_words` instead of `merge_many` or MASM `hash_double_words`, and `compress_double_word` for raw MASM compression. MASM domain helpers use `_in_domain` and take the domain first. Rebuild compiled MASM packages; the recursive VM verifier root changes ([#4018](https://github.com/0xMiden/miden-vm/pull/4018)).
